@@ -10,7 +10,7 @@ class User(db.Model):
     name = db.Column(db.String(150))
     email = db.Column(db.String(50), unique=True) #email must be unique
     password = db.Column(db.String(150))
-    bills = db.relationship("Rent", "Market")
+    bills = db.relationship("Rent", "Market") #set relationship databases
 
 """ models for bills database """
 
@@ -24,9 +24,14 @@ class Rent(db.Model):
     date = db.Column(db.DateTime(timezone=True), default = func.now()) #takes current time when object is created
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
+""" models for market database """
+
 class Market(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     market = db.Column(db.Integer)
+    market_list = db.Column(db.String(1000)) # <- should be a dictionary with keys and values
     delivery = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone=True), default = func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+
+db.create_all()
