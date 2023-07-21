@@ -1,7 +1,26 @@
-from main import app
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os
 
-class Settings():
-    app.config["SQLALCHEMY_DATABASE_URI"] = "DATABASE"
+db = SQLAlchemy()
+dbconn = os.environ.get("sql_alchemy_conn")
+
+def create_app():
+    app = Flask("Control-de-gastos", template_folder="../Controlador-de-gastos-web/templates", static_folder="..\Controlador-de-gastos-web\static")
     app.config["SECRET_KEY"] = "SECRET_KEY"
+    app.config["SQLALCHEMY_DATABASE_URI"] = dbconn
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.init_app(app)
 
-app_db = Settings()
+    from models.db_models import User, Rent, Market
+
+    with app.app_context():
+        db.create_all()
+    
+    return app
+
+def create_db(app):
+    if not os.path.exists(dbconn):
+        db.create_all(app=app)
+    return db
+
