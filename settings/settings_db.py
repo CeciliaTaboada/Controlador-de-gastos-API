@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
+from os import environ
 
 db = SQLAlchemy()
-dbconn = os.environ.get("sql_alchemy_conn")
+dbconn = environ.get("sql_alchemy_conn")
 
 def create_app():
     app = Flask("Control-de-gastos", template_folder="../Controlador-de-gastos-web/templates", static_folder="..\Controlador-de-gastos-web\static")
@@ -18,9 +18,3 @@ def create_app():
         db.create_all()
     
     return app
-
-def create_db(app):
-    if not os.path.exists(dbconn):
-        db.create_all(app=app)
-    return db
-
