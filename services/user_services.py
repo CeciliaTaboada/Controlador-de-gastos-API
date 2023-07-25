@@ -4,7 +4,7 @@ class UserServices():
 
     @staticmethod
     def get_mail(email):
-        return User.query.filter_by(email=email).first()
+        return User.query.filter_by(email=str(email)).first()
 
     @staticmethod
     def check_password(password, password1):
