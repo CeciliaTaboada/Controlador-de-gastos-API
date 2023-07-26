@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150))
     email = db.Column(db.String(50), unique=True) #email must be unique
-    password = db.Column(db.String(150))
+    password = db.Column(db.String(255))
     rent = db.relationship("Rent", uselist=False, back_populates="users", cascade="all, delete-orphan", single_parent=True) #set relationship databases
     market = db.relationship("Market", uselist=False, back_populates="users", cascade="all, delete-orphan", single_parent=True)
 
