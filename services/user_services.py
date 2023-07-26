@@ -8,5 +8,6 @@ class UserServices():
 
     @staticmethod
     def check_password(password, password1):
-        if len(password) >= 8 and password == password1:
-            return True
+        if len(password) < 8 or password != password1:
+            return False
+        return True
