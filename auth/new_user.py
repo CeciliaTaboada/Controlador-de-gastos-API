@@ -1,5 +1,5 @@
-from flask import request, flash, render_template
-from flask_login import login_user
+from flask import request, flash, render_template, redirect, url_for
+from flask_login import login_user, current_user
 from werkzeug.security import generate_password_hash
 from models.db_models import User
 from settings.settings_db import db
@@ -27,6 +27,6 @@ def create_user():
             login_user(newuser, remember=True) #keep the user loged in
         except:
             db.session.rollback()
-        return render_template("index.html")
-    return render_template("index.html")
+        return redirect(url_for("views.home"))
+    return render_template("index.html", user = current_user)
     

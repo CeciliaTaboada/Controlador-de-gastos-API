@@ -1,5 +1,5 @@
-from flask import request, flash, redirect
-from flask_login import login_user
+from flask import request, flash, redirect, render_template, url_for
+from flask_login import login_user, current_user
 from werkzeug.security import check_password_hash
 from services.user_services import UserServices
 
@@ -12,9 +12,10 @@ def login():
         
         if usermail:
             if check_password_hash(usermail.password, password):
-                return login_user(usermail, remember=True)
+                login_user(usermail, remember=True)
+                return redirect(url_for("views.home"))
             else:
                 flash("Incorrect password", category="error")
         else:
             flash("Incorrect mail", category="error")
-    return redirect("home.html")
+    return render_template("index.html", user = current_user)
