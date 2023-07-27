@@ -1,9 +1,9 @@
-from flask import redirect
+from flask import redirect, url_for
 from flask_login import login_required, logout_user
-from routes.auth import auth
+from views.viewhome import views
 
-@auth.route("/home")
+@views.route("/home")
 @login_required
 def logout():
     logout_user()
-    return redirect("/")
+    return redirect(url_for("app.homepage"))
