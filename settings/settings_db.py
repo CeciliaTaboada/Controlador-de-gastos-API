@@ -18,7 +18,7 @@ def create_app():
     with app.app_context():
         app.register_blueprint(views, url_prefix="/")
 
-    from models.db_models import User, Rent, Market
+    from models.db_models import User, Rent, Market, Note
 
     with app.app_context():
         db.create_all()

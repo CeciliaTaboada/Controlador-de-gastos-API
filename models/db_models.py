@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     rent = db.relationship("Rent", uselist=False, back_populates="users", cascade="all, delete-orphan", single_parent=True) #set relationship databases
     market = db.relationship("Market", uselist=False, back_populates="users", cascade="all, delete-orphan", single_parent=True)
+    notes = db.relationship("Note", uselist=False, back_populates="users", cascade="all, delete-orphan", single_parent=True)
 
 """ models for bills database """
 
@@ -32,9 +33,19 @@ class Market(db.Model):
     __tablename__ = "market"
     id = db.Column(db.Integer, primary_key=True)
     market = db.Column(db.Integer)
-    market_list = db.Column(db.String(1000)) # <- should be a dictionary with keys and values
+    market_list = db.Column(db.String(1000))
     delivery = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone=True))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     users = db.relationship("User", back_populates="market", single_parent=True, cascade="all, delete-orphan")
 
+""" models for reminders notes """
+
+class Note(db.Model):
+    __tablename__ = "notes"
+    id = db.Column(db.Integer, primary_key=True)
+    note = db.Column(db.String(200))
+    setDate = db.Column(db.DateTime(timezone=True))
+    creationDate = db.Column(db.DateTime(timezone=True))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    users = db.relationship("User", back_populates="notes", single_parent=True, cascade="all, delete-orphan")
