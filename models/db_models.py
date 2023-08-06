@@ -34,7 +34,6 @@ class Market(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     market = db.Column(db.Integer)
     market_list = db.Column(db.String(1000))
-    delivery = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone=True))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     users = db.relationship("User", back_populates="market", single_parent=True, cascade="all, delete-orphan")
