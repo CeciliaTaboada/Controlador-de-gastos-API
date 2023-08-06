@@ -7,7 +7,7 @@ from settings.settings_db import db
 
 class UserServices():
 
-    @staticmethod
+
     def create_user():
         if request.method == 'POST':
             email = request.form.get("email")
@@ -36,15 +36,13 @@ class UserServices():
     @staticmethod
     def login():
         if request.method == 'POST':
-            email = request.form.get("email-login")
-            password = request.form.get("password-login")
-
-            usermail = UserServices.get_mail(email)
+            user = UserServices.get_mail(request.form.get("email-login"))
             
-            if usermail:
-                if check_password_hash(usermail.password, password):
-                    login_user(usermail, remember=True)
-                    return redirect(url_for("views.home"))
+            if user:
+                if check_password_hash(user.password, request.form.get("password-login")):
+                    login_user(user, remember=True)
+                    name = user.name
+                    return redirect(url_for("views.home", name= name, user=current_user))
                 else:
                     flash("Incorrect password", category="error")
             else:
